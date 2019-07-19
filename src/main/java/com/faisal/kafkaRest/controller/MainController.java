@@ -3,6 +3,8 @@ package com.faisal.kafkaRest.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.faisal.kafkaRest.dao.TopicDAO;
@@ -39,9 +42,9 @@ public class MainController {
 
 	@PostMapping(value = "/publish")
 	public TopicDTO publish(@RequestBody TopicDTO topicDTO) {
-		
+
 		try {
-			sentKafka.sendMessage(topicDTO.getData());
+			sentKafka.sendMessage(topicDTO.getData(), topicDTO.getTopic());
 			return topicDTO;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -50,9 +53,6 @@ public class MainController {
 		}
 
 	}
-//	@PutMapping(value="/update")
-//	public Topic update(@RequestBody Topic topic, @PathVariable Long id) {
-//		
-//	}
+
 
 }
